@@ -82,7 +82,7 @@ if wp:
     ]
 lines += [
     '* **http → https:** the zone setting "Always Use HTTPS" (301 at Cloudflare\'s edge).',
-    f'* **Redirect rules:** {f"the `{zone}` zone has a Single Redirect rule: apex → `https://{host}` + path, query string kept, 301." if host in APEX else "none."}',
+    f'* **Redirect rules:** {(f"the `{zone}` zone has a Single Redirect rule: `http.host eq \"{zone}\"` → `concat(\"https://{host}\", http.request.uri.path)`, query string kept, 301" + (" (created in the dashboard at cutover)." if stage == "preview" else ".")) if host in APEX else "none."}',
     '* **Rollback:** while the old origin is up, remove `routes` from `wrangler.jsonc` and deploy (or delete the route in the dashboard); the origin serves again at once. '
     'A bad version can be rolled back with `npx wrangler@4.148.0 rollback`.',
     '',
