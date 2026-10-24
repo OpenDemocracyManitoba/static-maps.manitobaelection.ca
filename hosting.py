@@ -28,6 +28,7 @@ open('wrangler.jsonc', 'w').write(f'''// Cloudflare Workers static assets for {h
   "name": "{name}",
 {main}  "compatibility_date": "{DATE}",
   "workers_dev": {"false" if stage == "final" else "true"},
+  "preview_urls": false,
   "assets": {{
     "directory": "./site",
 {extra}    "html_handling": "auto-trailing-slash",
@@ -70,7 +71,7 @@ lines = [
     f'* **Worker:** `{name}`, account `Stungeye@gmail.com\'s Account`.',
     '* **Deploy:** `npx wrangler@4.148.0 deploy` from the repo root. Only `site/` is uploaded.',
     f'* **Routes:** {"none yet (preview only)" if stage == "preview" else f"`{host}/*` on zone `{zone}`, over the existing proxied DNS record"}.',
-    f'* **workers.dev:** {"off (R11)" if stage == "final" else wd}.',
+    f'* **workers.dev:** {"off (R11)" if stage == "final" else wd}. Per-version preview URLs are off (`preview_urls: false`).',
     '* **Serving:** `html_handling: auto-trailing-slash` (`/foo` serves `foo.html`, `/foo/` serves `foo/index.html`; the other forms 307 to those) and '
     f'`not_found_handling: 404-page` ({"the site\'s own `404.html`" if host in OWN_404 else "`site/404.html`, a minimal page added in Phase B"}).',
 ]
